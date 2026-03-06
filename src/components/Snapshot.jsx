@@ -41,7 +41,7 @@ export default function Snapshot({ row, params, locked }) {
 
   const before59 = row.age < 59.5;
   const label = before59 ? 'Before 59\u00BD' : 'After 59\u00BD';
-  const taxableGains = Math.max(0, row.brokerageGains - row.brokerageLossCarryover);
+  const taxableGains = row.brokerageTaxableGains;
 
   const rate = `${params.growthRate}%`;
   const taxRate = `${params.incomeTaxRate}%`;
@@ -68,7 +68,7 @@ export default function Snapshot({ row, params, locked }) {
     `Gross = prev \u00D7 (1 + growth) + divs \u2212 divTax + contribution = ${fmt(row.brokerageGross)}`,
     `Cost basis = contributions + after-tax dividends = ${fmt(row.brokerageCostBasis)}`,
     `Gains = Gross \u2212 Cost basis = ${fmt(row.brokerageGross)} \u2212 ${fmt(row.brokerageCostBasis)} = ${fmt(row.brokerageGains)}`,
-    `Taxable gains = max(0, Gains \u2212 Loss carryover) = max(0, ${fmt(row.brokerageGains)} \u2212 ${fmt(row.brokerageLossCarryover)}) = ${fmt(taxableGains)}`,
+    `Taxable gains = max(0, Gains \u2212 Loss carryover) = ${fmt(taxableGains)}`,
   ];
   if (row.brokerageTaxOwed > 0) {
     brokerageFormulas.push(

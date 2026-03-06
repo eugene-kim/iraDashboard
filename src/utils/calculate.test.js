@@ -76,9 +76,29 @@ describe('calculate', () => {
 
   it('$3k annual ordinary income offset reduces carryover', () => {
     const results = calculate({ ...defaults, endAge: 36, growthRate: 0, dividendYield: 0 });
-    // After 2 years: carryover should be 114000 - 3000 - 3000 = 108000
+    // Sale at age 36: only age 35's $3k deduction has been applied (non-sale year)
+    // In the sale year, carryover offsets gains (0 here), $3k deduction does not apply
+    // Remaining = 114000 - 3000 = 111000
     const last = results[results.length - 1];
-    expect(last.brokerageLossCarryover).toBe(108000);
+    expect(last.brokerageLossCarryover).toBe(111000);
+  });
+
+  it('carryover offsets gains before $3k deduction in sale year', () => {
+    const results = calculate({
+      ...defaults,
+      endAge: 36,
+      annualContribution: 10000,
+      growthRate: 100,
+      dividendYield: 0,
+      ltcgRate: 20,
+      capitalLossCarryover: 4000,
+    });
+    const last = results[results.length - 1]; // age 36
+    // Year 35: no gains, carryover 4000 -> 1000 after $3k deduction
+    // Year 36: gains = $10000, carryover = $1000 offsets gains
+    // Taxable = 10000 - 1000 = 9000, tax = 9000 * 0.20 = 1800
+    expect(last.brokerageTaxableGains).toBe(9000);
+    expect(last.brokerageTaxOwed).toBe(1800);
   });
 
   it('Zero growth rate: contributions only, no penalties or gains', () => {

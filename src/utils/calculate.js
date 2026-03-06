@@ -55,15 +55,15 @@ export function calculate(params) {
     const afterTaxDividends = dividends - dividendTax;
     brokerageCostBasis += afterTaxDividends;
 
-    // $3k annual ordinary income offset from loss carryover
-    lossCarryover = Math.max(0, lossCarryover - 3000);
-
-    // Walkaway calculation
+    // Walkaway calculation (uses carryover before this year's $3k deduction)
     const brokerageGains = brokerageGross - brokerageCostBasis;
     const taxableGains = Math.max(0, brokerageGains - lossCarryover);
     const brokerageTaxOwed = taxableGains * (ltcgRate / 100);
     const remainingLossCarryover = Math.max(0, lossCarryover - Math.max(0, brokerageGains));
     const brokerageWalkaway = brokerageGross - brokerageTaxOwed;
+
+    // $3k annual ordinary income offset (applied for non-sale years going forward)
+    lossCarryover = Math.max(0, lossCarryover - 3000);
 
     results.push({
       age,
@@ -75,6 +75,7 @@ export function calculate(params) {
       brokerageGross: round(brokerageGross),
       brokerageCostBasis: round(brokerageCostBasis),
       brokerageGains: round(brokerageGains),
+      brokerageTaxableGains: round(taxableGains),
       brokerageLossCarryover: round(remainingLossCarryover),
       brokerageTaxOwed: round(brokerageTaxOwed),
       brokerageWalkaway: round(brokerageWalkaway),

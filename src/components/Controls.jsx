@@ -6,7 +6,7 @@ const sliders = [
   { key: 'incomeTaxRate', label: 'Income Tax Rate', min: 22, max: 37, step: 1, format: '%', tip: 'Your marginal federal income tax bracket. Applied to early Roth withdrawals' },
   { key: 'ltcgRate', label: 'LTCG Rate', min: 0, max: 20, step: 1, format: '%', tip: 'Long-term capital gains rate. 0%, 15%, or 20% depending on income' },
   { key: 'dividendYield', label: 'Dividend Yield', min: 0, max: 5, step: 0.1, format: '%', tip: 'Portion of total return paid as dividends. S&P 500 currently ~1.3%' },
-  { key: 'capitalLossCarryover', label: 'Capital Loss Carryover', min: 0, max: 500000, step: 1000, format: '$', tip: 'Accumulated capital losses from prior years that offset future gains' },
+  { key: 'capitalLossCarryover', label: 'Capital Loss Carryover', min: 0, max: 500000, step: 1000, format: '$', tip: 'Accumulated capital losses from prior years. Reduces taxable gains dollar-for-dollar when you sell' },
 ];
 
 function formatValue(val, format) {

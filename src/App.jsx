@@ -10,9 +10,9 @@ const defaultParams = {
   endAge: 65,
   annualContribution: 7000,
   growthRate: 7,
-  incomeTaxRate: 35,
+  incomeTaxRate: 24,
   ltcgRate: 15,
-  dividendYield: 1.5,
+  dividendYield: 1.3,
   capitalLossCarryover: 114000,
 };
 

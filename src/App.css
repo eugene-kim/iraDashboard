@@ -262,7 +262,9 @@ h1 {
   padding: 6px 10px;
   font-size: 0.75rem;
   color: var(--text-muted);
-  white-space: nowrap;
+  white-space: normal;
+  width: max-content;
+  max-width: 260px;
   z-index: 100;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   pointer-events: none;

@@ -65,7 +65,7 @@ export default function Snapshot({ row, params, locked }) {
   }
 
   const brokerageFormulas = [
-    `Gross = prev \u00D7 (1 + growth) + divs \u2212 divTax + contribution = ${fmt(row.brokerageGross)}`,
+    `Gross = prev \u00D7 (1 + totalReturn) \u2212 divTax + contribution = ${fmt(row.brokerageGross)}`,
     `Cost basis = contributions + after-tax dividends = ${fmt(row.brokerageCostBasis)}`,
     `Gains = Gross \u2212 Cost basis = ${fmt(row.brokerageGross)} \u2212 ${fmt(row.brokerageCostBasis)} = ${fmt(row.brokerageGains)}`,
     `Taxable gains = max(0, Gains \u2212 Loss carryover) = ${fmt(taxableGains)}`,

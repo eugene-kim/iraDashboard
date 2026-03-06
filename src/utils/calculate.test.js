@@ -101,6 +101,22 @@ describe('calculate', () => {
     expect(last.brokerageTaxOwed).toBe(1800);
   });
 
+  it('negative gains create new loss carryover', () => {
+    const results = calculate({
+      ...defaults,
+      growthRate: 4,
+      dividendYield: 5,
+      ltcgRate: 20,
+      capitalLossCarryover: 0,
+      endAge: 45,
+    });
+    const last = results[results.length - 1];
+    // Dividend yield > growth rate causes negative gains (dividend tax drag exceeds appreciation)
+    expect(last.brokerageGains).toBeLessThan(0);
+    expect(last.brokerageLossCarryover).toBeGreaterThan(0);
+    expect(last.brokerageTaxOwed).toBe(0);
+  });
+
   it('Zero growth rate: contributions only, no penalties or gains', () => {
     const results = calculate({ ...defaults, growthRate: 0, dividendYield: 0, endAge: 40 });
     const last = results[results.length - 1];

@@ -59,7 +59,9 @@ export function calculate(params) {
     const brokerageGains = brokerageGross - brokerageCostBasis;
     const taxableGains = Math.max(0, brokerageGains - lossCarryover);
     const brokerageTaxOwed = taxableGains * (ltcgRate / 100);
-    const remainingLossCarryover = Math.max(0, lossCarryover - Math.max(0, brokerageGains));
+    const remainingLossCarryover = brokerageGains >= 0
+      ? Math.max(0, lossCarryover - brokerageGains)
+      : lossCarryover + Math.abs(brokerageGains);
     const brokerageWalkaway = brokerageGross - brokerageTaxOwed;
 
     // $3k annual ordinary income offset (applied for non-sale years going forward)
